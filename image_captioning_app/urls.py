@@ -14,3 +14,6 @@ urlpatterns = [
     path('', redirect_to_home), 
     path('image_caption/', include('caption_generator.urls'))
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
