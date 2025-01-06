@@ -1,2 +1,3 @@
 __pycache__/
 venv/
+ml_model/final_model/image_captioning_model_final.keras
