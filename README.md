@@ -93,10 +93,7 @@ Open your browser and navigate to [http://127.0.0.1:8000/](http://127.0.0.1:8000
 
 ---
 
-## License
-This project is licensed under the MIT License. See the `LICENSE` file for details.
 
----
 
 ## Contributors
 - **Nipun Bakshi** – *Developer*
