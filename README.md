@@ -31,7 +31,7 @@ This repository contains the **Image Captioning App**, a web application that ge
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/N2B6/Image_captioning.git
-cd image-captioning-app
+cd image_captioning_app
 ```
 
 ### 2. Create a Virtual Environment
