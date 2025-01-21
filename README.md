@@ -15,11 +15,9 @@ This repository contains the **Image Captioning App**, a web application that ge
 ## Project Structure
 - **`caption_generator/`**: Core module handling caption generation using the ML model.
 - **`image_captioning_app/`**: Main Django app managing views, templates, and the backend logic.
-- **`ml_model/`**: Contains the pre-trained model and related utilities for generating captions.
+- **`ml_model/`**: Contains the trained model and related utilities for generating captions.
 - **`staticfiles/`**: Frontend assets including CSS, JavaScript, and images.
 - **`uploads/`**: Directory for storing user-uploaded images.
-- **`.gitattributes`**: File attribute management for the repository.
-- **`.gitignore`**: Specifies files and directories excluded from version control.
 - **`db.sqlite3`**: SQLite database file storing image and caption data.
 - **`manage.py`**: Django's management script for running and managing the application.
 - **`requirements.txt`**: List of Python dependencies required for the project.
