@@ -76,7 +76,7 @@ Open your browser and navigate to [http://127.0.0.1:8000/](http://127.0.0.1:8000
 ---
 
 ## Python Libraries
-- **TensorFlow/Keras**: For loading and running the pre-trained model.
+- **TensorFlow/Keras**: For loading and running the trained model.
 - **Pandas**: Data handling and preprocessing.
 - **Matplotlib/Seaborn**: Visualizing results (optional).
 - **Django**: Backend framework.
