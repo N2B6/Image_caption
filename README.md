@@ -4,7 +4,7 @@ A deep learning system that generates descriptive captions for images using ResN
 
 <img src="doggy.jpeg" width="300" />
   
-*Generated Caption: "a brown dog is running through a grassy field."*
+*Generated Caption: "a light brown dog is running through a grassy field."*
 
 ## 🚀 Key Features
 - **Hybrid Architecture**: ResNet50 (CNN) for image features + LSTM for sequence modeling
