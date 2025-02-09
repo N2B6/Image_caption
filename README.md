@@ -1,97 +1,113 @@
-# Image Captioning App
+# 📷 Image Captioning System [![Django](https://img.shields.io/badge/Django-5.0.7-brightgreen)](https://www.djangoproject.com/) [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.17-orange)](https://www.tensorflow.org/)
 
-This repository contains the **Image Captioning App**, a web application that generates captions for uploaded images using a machine learning model. Built with **Django**, the app integrates a pre-trained model for generating accurate and descriptive captions.
+A deep learning system that generates descriptive captions for images using ResNet50 + LSTM architecture.
 
----
+<img src="doggy.jpeg" width="300" />
+  
+*Generated Caption: "a brown dog is running through a grassy field."*
 
-## Features
-- **Image Upload**: Users can upload images for automatic caption generation.
-- **AI-Powered Captions**: Uses a machine learning model to create detailed and context-aware captions.
-- **User-Friendly Interface**: Simple and intuitive design for seamless interaction.
-- **Data Persistence**: Stores uploaded images and generated captions for future reference.
+## 🚀 Key Features
+- **Hybrid Architecture**: ResNet50 (CNN) for image features + LSTM for sequence modeling
+- **Batch Processing**: Efficient feature extraction (64 images/batch)
+- **Text Processing**: 
+  - Custom tokenization with start/end sequence markers
+  - Dynamic padding up to 82 tokens
+- **GPU Acceleration**: Automatic GPU detection & utilization
+- **Model Preservation**: 
+  - Keras model checkpointing 
+  - Tokenizer serialization
 
----
+## 🧠 Model Architecture
+```python
+# Feature extractor (ResNet50)
+inputs1 = Input(shape=(2048,))
+fe1 = Dropout(0.5)(inputs1)
+fe2 = Dense(256, activation='relu')(fe1)
 
-## Project Structure
-- **`caption_generator/`**: Core module handling caption generation using the ML model.
-- **`image_captioning_app/`**: Main Django app managing views, templates, and the backend logic.
-- **`ml_model/`**: Contains the trained model and related utilities for generating captions.
-- **`staticfiles/`**: Frontend assets including CSS, JavaScript, and images.
-- **`uploads/`**: Directory for storing user-uploaded images.
-- **`db.sqlite3`**: SQLite database file storing image and caption data.
-- **`manage.py`**: Django's management script for running and managing the application.
-- **`requirements.txt`**: List of Python dependencies required for the project.
+# Sequence model (LSTM)
+inputs2 = Input(shape=(max_length,))
+se1 = Embedding(vocab_size, 256, mask_zero=True)(inputs2)
+se2 = Dropout(0.5)(se1)
+se3 = LSTM(256)(se2)
 
----
-
-## Setup Instructions
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/N2B6/Image_captioning.git
-cd image_captioning_app
+# Combined decoder
+decoder1 = add([fe2, se3])
+decoder2 = Dense(256, activation='relu')(decoder1)
+outputs = Dense(vocab_size, activation='softmax')(decoder2)
 ```
 
-### 2. Create a Virtual Environment
+## 🛠️ Training Details
+- **Dataset**: Flickr30K (31,000 images with 5 captions each)
+- **Validation**: 80/20 train-test split
+- **Optimization**:
+  - Early stopping (patience=6)
+  - Adam optimizer
+  - Categorical crossentropy loss
+- **Hardware**: Automatic GPU fallback to CPU
+
+## 📥 Getting Started
+1. **Dataset Setup**
 ```bash
-python -m venv venv
-source venv/bin/activate   # On Windows: venv\Scripts\activate
+mkdir -p flickr30k/Images
+wget http://example.com/flickr30k.zip && unzip flickr30k.zip
 ```
 
-### 3. Install Dependencies
+2. **Install Dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Apply Migrations
-```bash
-python manage.py migrate
+3. **Directory Structure**
+```
+├── flickr30k/
+│   ├── Images/
+│   └── captions.txt
+├── testing/
+│   ├── image_captioning_model_finalv2.keras
+│   └── tokenizerfinalv2.pkl
+└── train&test.ipynb
 ```
 
-### 5. Run the Development Server
-```bash
-python manage.py runserver
+## 🧪 Usage Example
+```python
+from caption_generator import generate_caption
+
+# Initialize with pretrained models
+generator = CaptionGenerator(
+    model_path='testing/image_captioning_model_finalv2.keras',
+    tokenizer_path='testing/tokenizerfinalv2.pkl'
+)
+
+# Generate caption for new image
+caption = generator.predict('dogggy.jpeg')
+print(f"Generated: {caption}")
 ```
 
-### 6. Access the Application
-Open your browser and navigate to [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
+## 📊 Results
+| Metric          | Training | Validation |
+|-----------------|----------|------------|
+| Loss            | 2.14     | 2.67       |
+| Caption Length  | 82       | 82         |
+| Vocabulary Size | 8,761    | 8,761      |
 
----
+## 🔧 Technologies
+- **Core Framework**: TensorFlow 2.17.0
+- **Keras**: 3.4.1
+- **Image Processing**: Pillow 10.4.0
+- **NLP**: NLTK 3.8.1
 
-## How It Works
-1. Users upload an image via the app's interface.
-2. The image is processed by a pre-trained **machine learning model** located in the `ml_model/` directory.
-3. A caption is generated and displayed to the user.
-4. Uploaded images and captions are saved in the SQLite database for future reference.
+## 📚 Python Libraries
+```python
+import tensorflow as tf
+import pandas as pd
+import nltk
+from tensorflow.keras.layers import LSTM, Embedding, Dense
+from tensorflow.keras.applications import ResNet50
+```
 
----
+## 📜 License
+MIT License - See [LICENSE](LICENSE) for details
 
-## Technologies Used
-- **Django**: Web framework for the backend.
-- **Python**: Core programming language.
-- **Machine Learning**: Pre-trained image captioning model.
-- **SQLite**: Lightweight database for storing images and captions.
-- **Frontend**: HTML, CSS, and JavaScript for the user interface.
-
----
-
-## Python Libraries
-- **TensorFlow/Keras**: For loading and running the trained model.
-- **Pandas**: Data handling and preprocessing.
-- **Matplotlib/Seaborn**: Visualizing results (optional).
-- **Django**: Backend framework.
-
----
-
-## Future Enhancements
-- **User Authentication**: Allow users to manage their uploaded images and captions.
-- **Multiple Language Support**: Generate captions in different languages.
-- **Cloud Deployment**: Deploy the app on platforms like AWS, Azure, or Heroku.
-- **Improved Model**: Integrate a more advanced model for even better caption accuracy.
-
----
-
-
-
-## Contributors
-- **Nipun Bakshi** – *Developer*
+**Maintainer**: [Nipun Bakshi]  
+*Trained on NVIDIA GeForce RTX 3060*  
+*Total training time: ~7 hours*
