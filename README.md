@@ -108,6 +108,6 @@ from tensorflow.keras.applications import ResNet50
 ## 📜 License
 MIT License - See [LICENSE](LICENSE) for details
 
-**Maintainer**: [Nipun Bakshi]  
+**Maintainer**: Nipun Bakshi
 *Trained on NVIDIA GeForce RTX 3060*  
 *Total training time: ~7 hours*
